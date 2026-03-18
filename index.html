@@ -176,16 +176,34 @@
       background: #f43f5e;
       animation: waveform 1.2s ease-in-out infinite;
     }
+
+    /* Mobile menu */
+    .mobile-menu-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-menu-panel {
+      transform: translateY(-100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-menu-overlay.active .mobile-menu-panel {
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="bg-[#F9F9F9] text-gray-900 antialiased overflow-x-hidden flex flex-col min-h-screen">
 
   <!-- ==================== 1. NAVBAR ==================== -->
-  <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 animate-fade-up">
-    <nav class="glass-nav border border-gray-200 rounded-full pl-3 pr-2 py-2 flex items-center gap-8 shadow-sm hover:shadow-lg hover:shadow-rose-500/5 transition-all duration-300">
-      <a href="#" class="group flex items-center gap-2.5 text-sm text-gray-900 hover:text-rose-600 transition-colors">
-        <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-9 h-9">
-        <span style="font-family: 'Share Tech Mono', monospace;" class="text-xl tracking-tight text-gray-900">ShhhType</span>
+  <div class="fixed top-4 sm:top-6 left-0 right-0 z-50 flex justify-center px-4 animate-fade-up">
+    <nav class="glass-nav border border-gray-200 rounded-full pl-3 pr-2 py-2 flex items-center gap-3 sm:gap-8 shadow-sm hover:shadow-lg hover:shadow-rose-500/5 transition-all duration-300">
+      <a href="#" class="group flex items-center gap-2 sm:gap-2.5 text-sm text-gray-900 hover:text-rose-600 transition-colors">
+        <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-8 h-8 sm:w-9 sm:h-9">
+        <span style="font-family: 'Share Tech Mono', monospace;" class="text-lg sm:text-xl tracking-tight text-gray-900">ShhhType</span>
       </a>
       <div class="hidden md:flex items-center gap-6 text-sm font-montserrat font-medium text-gray-500">
         <a href="#features" class="hover:text-rose-600 transition-colors">Features</a>
@@ -193,18 +211,49 @@
         <a href="#pricing" class="hover:text-rose-600 transition-colors">Pricing</a>
       </div>
       <div class="h-4 w-px bg-gray-200 hidden md:block"></div>
-      <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="group bg-gray-900 text-white text-sm px-5 py-2.5 rounded-full hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/30 transition-all duration-300 flex items-center gap-2 font-montserrat font-medium">
+      <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="hidden sm:flex group bg-gray-900 text-white text-sm px-5 py-2.5 rounded-full hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/30 transition-all duration-300 items-center gap-2 font-montserrat font-medium">
         Buy Now
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
       </a>
+      <!-- Mobile hamburger button -->
+      <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors" aria-label="Open menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+      </button>
     </nav>
   </div>
 
+  <!-- Mobile menu overlay -->
+  <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 z-[60] md:hidden">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeMobileMenu()"></div>
+    <div class="mobile-menu-panel absolute top-0 left-0 right-0 bg-white rounded-b-3xl shadow-2xl p-6 pt-8">
+      <div class="flex items-center justify-between mb-8">
+        <a href="#" class="flex items-center gap-2" onclick="closeMobileMenu()">
+          <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-8 h-8">
+          <span style="font-family: 'Share Tech Mono', monospace;" class="text-lg tracking-tight text-gray-900">ShhhType</span>
+        </a>
+        <button onclick="closeMobileMenu()" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" aria-label="Close menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+      </div>
+      <div class="flex flex-col gap-2">
+        <a href="#features" onclick="closeMobileMenu()" class="text-lg font-montserrat font-medium text-gray-700 hover:text-rose-600 px-4 py-3 rounded-xl hover:bg-rose-50 transition-all">Features</a>
+        <a href="#how-it-works" onclick="closeMobileMenu()" class="text-lg font-montserrat font-medium text-gray-700 hover:text-rose-600 px-4 py-3 rounded-xl hover:bg-rose-50 transition-all">How It Works</a>
+        <a href="#pricing" onclick="closeMobileMenu()" class="text-lg font-montserrat font-medium text-gray-700 hover:text-rose-600 px-4 py-3 rounded-xl hover:bg-rose-50 transition-all">Pricing</a>
+      </div>
+      <div class="mt-6 pt-6 border-t border-gray-100">
+        <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="w-full bg-gray-900 text-white py-3.5 rounded-full text-base font-montserrat font-medium flex items-center justify-center gap-2 hover:bg-rose-600 transition-colors">
+          Buy Now — $29
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== MAIN CONTAINER ==================== -->
-  <main class="max-w-7xl mx-auto pt-32 px-6 pb-20 flex-grow">
+  <main class="max-w-7xl mx-auto pt-24 sm:pt-32 px-4 sm:px-6 pb-12 sm:pb-20 flex-grow">
 
     <!-- ==================== 2. HERO ==================== -->
-    <div class="bg-white rounded-[3rem] p-10 md:p-14 lg:p-16 shadow-sm border border-gray-100 relative overflow-hidden group transition-shadow duration-700">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] md:rounded-[3rem] p-6 sm:p-10 md:p-14 lg:p-16 shadow-sm border border-gray-100 relative overflow-hidden group transition-shadow duration-700">
       <!-- Subtle Background Grid -->
       <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
@@ -221,7 +270,7 @@
           </div>
 
           <!-- Headline -->
-          <h1 class="animate-fade-up delay-200 text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight mb-8 text-gray-900 font-medium">
+          <h1 class="animate-fade-up delay-200 text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight mb-6 sm:mb-8 text-gray-900 font-medium">
             Voice to
             <span class="italic text-gray-400">Text</span>
             <br>
@@ -233,7 +282,7 @@
           </h1>
 
           <!-- Description -->
-          <p class="animate-fade-up delay-300 text-lg md:text-xl text-gray-500 leading-relaxed max-w-lg mb-10 font-montserrat font-medium">
+          <p class="animate-fade-up delay-300 text-base sm:text-lg md:text-xl text-gray-500 leading-relaxed max-w-lg mb-8 sm:mb-10 font-montserrat font-medium">
             Press a hotkey, speak, and your words are transcribed and injected into any app — documents, emails, chat, code editors. Powered by Groq on macOS. Bring your own free Groq API key — their generous free tier handles normal dictation with ease.
           </p>
 
@@ -253,12 +302,12 @@
         </div>
 
         <!-- Right Visual: 4-Step Flow -->
-        <div class="lg:col-span-5 relative h-[500px] lg:h-[600px] w-full animate-slide-in delay-300">
+        <div class="lg:col-span-5 relative h-auto sm:h-[500px] lg:h-[600px] w-full animate-slide-in delay-300">
           <!-- Decorative offset background -->
           <div class="absolute top-10 right-10 w-full h-full bg-orange-100/50 rounded-[2rem] -rotate-3 z-0 hidden md:block"></div>
 
           <!-- Main Container -->
-          <div class="relative h-full w-full bg-gradient-to-br from-orange-50/80 via-white to-rose-50/80 rounded-[2rem] overflow-hidden shadow-2xl border border-orange-100/50 z-10 flex flex-col items-center justify-center p-8 gap-4">
+          <div class="relative h-full w-full bg-gradient-to-br from-orange-50/80 via-white to-rose-50/80 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border border-orange-100/50 z-10 flex flex-col items-center justify-center p-5 sm:p-8 gap-4">
             <!-- Background pattern -->
             <div class="absolute inset-0 bg-[radial-gradient(#f43f5e_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.05]"></div>
 
@@ -325,17 +374,17 @@
     </div>
 
     <!-- ==================== 3. HOW IT WORKS ==================== -->
-    <div id="how-it-works" class="py-24">
-      <h2 class="text-4xl md:text-5xl text-center mb-16 tracking-tight text-gray-900 font-montserrat font-semibold">How It Works</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div id="how-it-works" class="py-16 sm:py-24">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl text-center mb-10 sm:mb-16 tracking-tight text-gray-900 font-montserrat font-semibold">How It Works</h2>
+      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
         <!-- Step 1: Trigger -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-lg font-montserrat font-bold mb-6">1</div>
-          <div class="h-20 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-6 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
-            <i data-lucide="keyboard" class="w-10 h-10"></i>
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-base sm:text-lg font-montserrat font-bold mb-4 sm:mb-6">1</div>
+          <div class="h-16 sm:h-20 w-full bg-[#FFE4D6] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
+            <i data-lucide="keyboard" class="w-8 h-8 sm:w-10 sm:h-10"></i>
           </div>
-          <h3 class="text-xl font-montserrat font-semibold text-gray-900 mb-3 tracking-tight">Trigger</h3>
-          <p class="text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Press <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">Cmd+Alt+V</code> from any app.</p>
+          <h3 class="text-base sm:text-xl font-montserrat font-semibold text-gray-900 mb-2 sm:mb-3 tracking-tight">Trigger</h3>
+          <p class="text-xs sm:text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Press <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">Cmd+Alt+V</code> from any app.</p>
           <div class="mt-auto flex gap-1.5">
             <span class="inline-flex items-center justify-center bg-gray-100 text-gray-700 text-xs font-mono font-bold px-2.5 py-1.5 rounded-lg border border-gray-200 shadow-sm">&#8984;</span>
             <span class="inline-flex items-center justify-center bg-gray-100 text-gray-700 text-xs font-mono font-bold px-2.5 py-1.5 rounded-lg border border-gray-200 shadow-sm">&#8997;</span>
@@ -344,13 +393,13 @@
         </div>
 
         <!-- Step 2: Speak -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-lg font-montserrat font-bold mb-6">2</div>
-          <div class="h-20 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-6 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
-            <i data-lucide="mic" class="w-10 h-10"></i>
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-base sm:text-lg font-montserrat font-bold mb-4 sm:mb-6">2</div>
+          <div class="h-16 sm:h-20 w-full bg-[#E0E7FF] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
+            <i data-lucide="mic" class="w-8 h-8 sm:w-10 sm:h-10"></i>
           </div>
-          <h3 class="text-xl font-montserrat font-semibold text-gray-900 mb-3 tracking-tight">Speak</h3>
-          <p class="text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Talk naturally. Silence detection stops recording automatically.</p>
+          <h3 class="text-base sm:text-xl font-montserrat font-semibold text-gray-900 mb-2 sm:mb-3 tracking-tight">Speak</h3>
+          <p class="text-xs sm:text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Talk naturally. Silence detection stops recording automatically.</p>
           <div class="mt-auto flex items-end gap-1 h-8">
             <div class="wave-bar opacity-40" style="animation-delay: 0s;"></div>
             <div class="wave-bar opacity-60" style="animation-delay: 0.15s;"></div>
@@ -364,26 +413,26 @@
         </div>
 
         <!-- Step 3: Transcribe -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-lg font-montserrat font-bold mb-6">3</div>
-          <div class="h-20 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-6 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
-            <i data-lucide="zap" class="w-10 h-10"></i>
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-base sm:text-lg font-montserrat font-bold mb-4 sm:mb-6">3</div>
+          <div class="h-16 sm:h-20 w-full bg-[#FFE4D6] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
+            <i data-lucide="zap" class="w-8 h-8 sm:w-10 sm:h-10"></i>
           </div>
-          <h3 class="text-xl font-montserrat font-semibold text-gray-900 mb-3 tracking-tight">Transcribe</h3>
-          <p class="text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Groq cloud processes your audio in under a second.</p>
+          <h3 class="text-base sm:text-xl font-montserrat font-semibold text-gray-900 mb-2 sm:mb-3 tracking-tight">Transcribe</h3>
+          <p class="text-xs sm:text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">Groq cloud processes your audio in under a second.</p>
           <div class="mt-auto bg-gray-900 rounded-xl px-4 py-2.5">
             <p class="text-xs font-mono text-green-400">&rarr; "Schedule the meeting for Tuesday at 3pm"</p>
           </div>
         </div>
 
         <!-- Step 4: Polish -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-lg font-montserrat font-bold mb-6">4</div>
-          <div class="h-20 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-6 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
-            <i data-lucide="sparkles" class="w-10 h-10"></i>
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white text-base sm:text-lg font-montserrat font-bold mb-4 sm:mb-6">4</div>
+          <div class="h-16 sm:h-20 w-full bg-[#E0E7FF] rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
+            <i data-lucide="sparkles" class="w-8 h-8 sm:w-10 sm:h-10"></i>
           </div>
-          <h3 class="text-xl font-montserrat font-semibold text-gray-900 mb-3 tracking-tight">Polish</h3>
-          <p class="text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">AI rewrites your text in your chosen style.</p>
+          <h3 class="text-base sm:text-xl font-montserrat font-semibold text-gray-900 mb-2 sm:mb-3 tracking-tight">Polish</h3>
+          <p class="text-xs sm:text-sm text-gray-500 font-montserrat font-medium leading-relaxed mb-4">AI rewrites your text in your chosen style.</p>
           <div class="mt-auto flex items-center gap-2">
             <span class="text-xs font-montserrat font-medium text-gray-400 line-through">casual</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-500"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -394,12 +443,12 @@
     </div>
 
     <!-- ==================== 4. FEATURE CARDS ==================== -->
-    <div id="features" class="py-24">
-      <h2 class="text-4xl md:text-5xl text-center mb-16 tracking-tight text-gray-900 font-montserrat font-semibold">Features</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="features" class="py-16 sm:py-24">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl text-center mb-10 sm:mb-16 tracking-tight text-gray-900 font-montserrat font-semibold">Features</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
         <!-- Card 1: Global Hotkey -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="keyboard" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">Global Hotkey</h3>
@@ -410,8 +459,8 @@
         </div>
 
         <!-- Card 2: Privacy First -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="lock" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">Privacy First</h3>
@@ -422,8 +471,8 @@
         </div>
 
         <!-- Card 3: Blazing Fast -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="zap" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">Blazing Fast</h3>
@@ -434,8 +483,8 @@
         </div>
 
         <!-- Card 4: AI Rewrite -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="sparkles" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">AI Rewrite</h3>
@@ -446,8 +495,8 @@
         </div>
 
         <!-- Card 5: 9 Languages -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#FFE4D6] rounded-2xl flex items-center justify-center mb-8 text-orange-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="globe" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">9 Languages + Auto-detect</h3>
@@ -458,8 +507,8 @@
         </div>
 
         <!-- Card 6: Smart History -->
-        <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
-          <div class="h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
+        <div class="bg-white rounded-2xl sm:rounded-[2rem] p-5 sm:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300 group flex flex-col h-full">
+          <div class="h-32 sm:h-44 w-full bg-[#E0E7FF] rounded-2xl flex items-center justify-center mb-8 text-indigo-500 transition-transform group-hover:scale-[1.02] duration-500">
             <i data-lucide="clock" class="w-12 h-12"></i>
           </div>
           <h3 class="text-2xl font-montserrat font-semibold text-gray-900 mb-4 tracking-tight">Smart History</h3>
@@ -482,10 +531,10 @@
     </div>
 
     <!-- ==================== 5. LOCAL VS CLOUD ==================== -->
-    <div class="py-24">
+    <div class="py-16 sm:py-24">
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl tracking-tight text-gray-900 font-serif mb-6">
+        <div class="text-center mb-10 sm:mb-16">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl tracking-tight text-gray-900 font-serif mb-6">
             Two Modes, <span class="italic text-gray-400">One App</span>
           </h2>
           <p class="text-lg text-gray-500 font-montserrat font-medium max-w-2xl mx-auto">
@@ -493,10 +542,10 @@
           </p>
         </div>
 
-        <div class="bg-white rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
+        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 overflow-hidden">
           <div class="grid md:grid-cols-2">
             <!-- Cloud (Groq) -->
-            <div class="p-10 md:p-12 border-b md:border-b-0 md:border-r border-gray-100">
+            <div class="p-6 sm:p-10 md:p-12 border-b md:border-b-0 md:border-r border-gray-100">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
                   <i data-lucide="check" class="w-5 h-5"></i>
@@ -529,7 +578,7 @@
             </div>
 
             <!-- Local (Whisper) -->
-            <div class="p-10 md:p-12 bg-gray-50/50">
+            <div class="p-6 sm:p-10 md:p-12 bg-gray-50/50">
               <div class="flex items-center gap-3 mb-8">
                 <div class="w-10 h-10 rounded-full bg-gray-200/50 flex items-center justify-center text-gray-500">
                   <i data-lucide="info" class="w-5 h-5"></i>
@@ -562,7 +611,7 @@
           </div>
 
           <!-- Footer -->
-          <div class="bg-[#1A2626] p-8 md:p-10 text-center border-t border-gray-800/30">
+          <div class="bg-[#1A2626] p-6 sm:p-8 md:p-10 text-center border-t border-gray-800/30">
             <p class="text-gray-300 font-montserrat font-medium text-sm md:text-base leading-relaxed max-w-4xl mx-auto">
               We recommend Cloud mode for the best experience — Groq's free tier handles normal dictation easily. Just bring your own free API key. Switch to Local anytime in Settings for full offline privacy.
             </p>
@@ -572,10 +621,10 @@
     </div>
 
     <!-- ==================== 6. AI REWRITE SHOWCASE ==================== -->
-    <div class="bg-gray-900 rounded-[3rem] p-10 md:p-16 lg:p-20 relative overflow-hidden shadow-2xl">
+    <div class="bg-gray-900 rounded-2xl sm:rounded-[2rem] md:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 relative overflow-hidden shadow-2xl">
       <!-- Background Effects -->
-      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-rose-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div class="relative z-10">
         <div class="inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-800/50 px-4 py-1 text-xs font-montserrat font-semibold text-rose-400 mb-8">
@@ -583,9 +632,9 @@
           AI REWRITE
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div class="grid lg:grid-cols-2 gap-10 sm:gap-16 items-start">
           <div>
-            <h2 class="text-4xl md:text-5xl text-white mb-6 tracking-tight font-medium">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl text-white mb-6 tracking-tight font-medium">
               Your Voice,<br>
               <span class="text-gray-400 italic">Polished.</span>
             </h2>
@@ -623,26 +672,26 @@
               </div>
             </div>
 
-            <div class="mt-12 flex gap-4">
-              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat">Buy Now — $29</a>
-              <a href="#pricing" class="border border-gray-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat">See Pricing</a>
+            <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center">Buy Now — $29</a>
+              <a href="#pricing" class="border border-gray-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat text-center">See Pricing</a>
             </div>
           </div>
 
           <!-- Terminal-style card -->
-          <div class="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-3xl p-8 font-mono text-sm text-gray-300">
-            <div class="flex gap-2 mb-6">
+          <div class="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8 font-mono text-xs sm:text-sm text-gray-300">
+            <div class="flex gap-2 mb-4 sm:mb-6">
               <div class="w-3 h-3 rounded-full bg-red-500"></div>
               <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div class="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
             <p class="text-gray-500 mb-2">// Voice input:</p>
-            <p class="text-orange-300 mb-6 leading-relaxed">"ok so basically the meeting is moved to tuesday and we need to update the client on the timeline changes asap"</p>
+            <p class="text-orange-300 mb-4 sm:mb-6 leading-relaxed">"ok so basically the meeting is moved to tuesday and we need to update the client on the timeline changes asap"</p>
             <p class="text-gray-500 mb-2">// &rarr; Professional rewrite:</p>
             <p class="text-green-400 leading-relaxed">"The meeting has been rescheduled to Tuesday. We need to promptly update the client regarding the revised timeline."</p>
 
-            <div class="mt-8 pt-6 border-t border-gray-700">
-              <div class="flex gap-2 mb-6">
+            <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-700">
+              <div class="flex flex-wrap gap-2 mb-4 sm:mb-6">
                 <span class="px-3 py-1.5 rounded-lg bg-rose-500/20 border border-rose-500/30 text-xs font-semibold text-rose-400">Professional</span>
                 <span class="px-3 py-1.5 rounded-lg bg-gray-700/50 border border-gray-600/30 text-xs font-medium text-gray-400">Casual</span>
                 <span class="px-3 py-1.5 rounded-lg bg-gray-700/50 border border-gray-600/30 text-xs font-medium text-gray-400">Concise</span>
@@ -662,10 +711,10 @@
     </div>
 
     <!-- ==================== 7. PRO/PREMIUM SECTION ==================== -->
-    <div class="bg-gray-900 rounded-[3rem] p-10 md:p-16 lg:p-20 relative overflow-hidden shadow-2xl mt-12">
+    <div class="bg-gray-900 rounded-2xl sm:rounded-[2rem] md:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 relative overflow-hidden shadow-2xl mt-8 sm:mt-12">
       <!-- Background Effects -->
-      <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-rose-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute top-0 left-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-0 right-0 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-rose-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div class="relative z-10">
         <div class="inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-800/50 px-4 py-1 text-xs font-montserrat font-semibold text-rose-400 mb-8">
@@ -673,9 +722,9 @@
           PRO VERSION
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div class="grid lg:grid-cols-2 gap-10 sm:gap-16 items-start">
           <div>
-            <h2 class="text-4xl md:text-5xl text-white mb-6 tracking-tight font-medium">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl text-white mb-6 tracking-tight font-medium">
               Unlimited Cloud<br>
               <span class="text-gray-400 italic">Transcription &amp; AI Rewrite.</span>
             </h2>
@@ -722,14 +771,14 @@
               </div>
             </div>
 
-            <div class="mt-12 flex gap-4">
-              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat">Buy Now — $29</a>
-              <a href="#pricing" class="border border-gray-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat">Learn More</a>
+            <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center">Buy Now — $29</a>
+              <a href="#pricing" class="border border-gray-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat text-center">Learn More</a>
             </div>
           </div>
 
           <!-- Terminal-style license card -->
-          <div class="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-3xl p-8 font-mono text-sm text-gray-300">
+          <div class="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8 font-mono text-xs sm:text-sm text-gray-300">
             <div class="flex gap-2 mb-6">
               <div class="w-3 h-3 rounded-full bg-red-500"></div>
               <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -759,77 +808,77 @@
     </div>
 
     <!-- ==================== 8. MARQUEE ==================== -->
-    <div class="w-full py-12 mt-8 overflow-hidden marquee-mask relative group bg-transparent">
+    <div class="w-full py-8 sm:py-12 mt-4 sm:mt-8 overflow-hidden marquee-mask relative group bg-transparent">
       <div class="flex w-[200%] animate-infinite-scroll hover:[animation-play-state:paused]">
-        <div class="flex items-center justify-around w-1/2 gap-16 px-8">
+        <div class="flex items-center justify-around w-1/2 gap-6 sm:gap-16 px-4 sm:px-8">
           <div class="flex items-center gap-3 text-gray-400 hover:text-rose-600 transition-colors duration-300">
-            <i data-lucide="cpu" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Groq</span>
+            <i data-lucide="cpu" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Groq</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-orange-600 transition-colors duration-300">
-            <i data-lucide="audio-waveform" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Whisper</span>
+            <i data-lucide="audio-waveform" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Whisper</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M12 2a8.4 8.4 0 0 0-2.2.3 7.5 7.5 0 0 0-4.6 3.5A8.3 8.3 0 0 0 4 9.5c0 1.4.3 2.6.8 3.7.5 1 1.2 1.8 2 2.6l.6.5c.3.3.5.7.6 1.1V20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.6c.1-.4.3-.8.6-1.1l.6-.5c.8-.8 1.5-1.6 2-2.6.5-1.1.8-2.3.8-3.7a8.3 8.3 0 0 0-1.2-3.7 7.5 7.5 0 0 0-4.6-3.5A8.4 8.4 0 0 0 12 2z"/></svg>
-            <span class="text-lg font-montserrat font-semibold">Apple Silicon</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 sm:w-8 sm:h-8"><path d="M12 2a8.4 8.4 0 0 0-2.2.3 7.5 7.5 0 0 0-4.6 3.5A8.3 8.3 0 0 0 4 9.5c0 1.4.3 2.6.8 3.7.5 1 1.2 1.8 2 2.6l.6.5c.3.3.5.7.6 1.1V20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.6c.1-.4.3-.8.6-1.1l.6-.5c.8-.8 1.5-1.6 2-2.6.5-1.1.8-2.3.8-3.7a8.3 8.3 0 0 0-1.2-3.7 7.5 7.5 0 0 0-4.6-3.5A8.4 8.4 0 0 0 12 2z"/></svg>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold hidden sm:inline">Apple Silicon</span><span class="text-sm font-montserrat font-semibold sm:hidden">Apple</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-blue-600 transition-colors duration-300">
-            <i data-lucide="layers" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Tauri</span>
+            <i data-lucide="layers" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Tauri</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-orange-600 transition-colors duration-300">
-            <i data-lucide="cog" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Rust</span>
+            <i data-lucide="cog" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Rust</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-purple-600 transition-colors duration-300">
-            <i data-lucide="brain" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Llama 3.3</span>
+            <i data-lucide="brain" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Llama 3.3</span>
           </div>
         </div>
         <!-- Duplicate for infinite scroll -->
-        <div class="flex items-center justify-around w-1/2 gap-16 px-8">
+        <div class="flex items-center justify-around w-1/2 gap-6 sm:gap-16 px-4 sm:px-8">
           <div class="flex items-center gap-3 text-gray-400 hover:text-rose-600 transition-colors duration-300">
-            <i data-lucide="cpu" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Groq</span>
+            <i data-lucide="cpu" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Groq</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-orange-600 transition-colors duration-300">
-            <i data-lucide="audio-waveform" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Whisper</span>
+            <i data-lucide="audio-waveform" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Whisper</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M12 2a8.4 8.4 0 0 0-2.2.3 7.5 7.5 0 0 0-4.6 3.5A8.3 8.3 0 0 0 4 9.5c0 1.4.3 2.6.8 3.7.5 1 1.2 1.8 2 2.6l.6.5c.3.3.5.7.6 1.1V20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.6c.1-.4.3-.8.6-1.1l.6-.5c.8-.8 1.5-1.6 2-2.6.5-1.1.8-2.3.8-3.7a8.3 8.3 0 0 0-1.2-3.7 7.5 7.5 0 0 0-4.6-3.5A8.4 8.4 0 0 0 12 2z"/></svg>
-            <span class="text-lg font-montserrat font-semibold">Apple Silicon</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 sm:w-8 sm:h-8"><path d="M12 2a8.4 8.4 0 0 0-2.2.3 7.5 7.5 0 0 0-4.6 3.5A8.3 8.3 0 0 0 4 9.5c0 1.4.3 2.6.8 3.7.5 1 1.2 1.8 2 2.6l.6.5c.3.3.5.7.6 1.1V20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.6c.1-.4.3-.8.6-1.1l.6-.5c.8-.8 1.5-1.6 2-2.6.5-1.1.8-2.3.8-3.7a8.3 8.3 0 0 0-1.2-3.7 7.5 7.5 0 0 0-4.6-3.5A8.4 8.4 0 0 0 12 2z"/></svg>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold hidden sm:inline">Apple Silicon</span><span class="text-sm font-montserrat font-semibold sm:hidden">Apple</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-blue-600 transition-colors duration-300">
-            <i data-lucide="layers" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Tauri</span>
+            <i data-lucide="layers" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Tauri</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-orange-600 transition-colors duration-300">
-            <i data-lucide="cog" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Rust</span>
+            <i data-lucide="cog" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Rust</span>
           </div>
           <div class="flex items-center gap-3 text-gray-400 hover:text-purple-600 transition-colors duration-300">
-            <i data-lucide="brain" class="w-8 h-8"></i>
-            <span class="text-lg font-montserrat font-semibold">Llama 3.3</span>
+            <i data-lucide="brain" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+            <span class="text-sm sm:text-lg font-montserrat font-semibold">Llama 3.3</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ==================== 9. PRICING ==================== -->
-    <div id="pricing" class="py-24">
-      <h2 class="text-4xl md:text-5xl text-center mb-4 tracking-tight text-gray-900 font-montserrat font-semibold">Simple Pricing</h2>
+    <div id="pricing" class="py-16 sm:py-24">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl text-center mb-4 tracking-tight text-gray-900 font-montserrat font-semibold">Simple Pricing</h2>
       <p class="text-lg text-gray-500 font-montserrat font-medium text-center mb-16">One price. Everything included. No subscriptions — yet.</p>
 
       <div class="max-w-lg mx-auto">
-        <div class="bg-white rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 p-10 md:p-12 text-center">
+        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 p-6 sm:p-10 md:p-12 text-center">
           <!-- Badge -->
           <span class="inline-flex items-center gap-2 bg-rose-50 text-rose-600 px-4 py-1.5 rounded-full text-xs font-montserrat font-bold uppercase tracking-wider border border-rose-100 mb-8">LAUNCH SPECIAL</span>
 
           <!-- Price -->
           <div class="mb-4">
-            <span class="text-6xl md:text-7xl font-montserrat font-bold text-gray-900">$29</span>
+            <span class="text-5xl sm:text-6xl md:text-7xl font-montserrat font-bold text-gray-900">$29</span>
             <span class="text-lg text-gray-500 font-montserrat font-medium ml-2">one-time</span>
           </div>
           <p class="text-sm text-gray-500 font-montserrat font-medium mb-10">Lock in lifetime v1.x access before we switch to $9.99/mo</p>
@@ -891,9 +940,9 @@
     </div>
 
     <!-- ==================== 10. FINAL CTA ==================== -->
-    <div class="bg-white rounded-[3rem] p-10 md:p-16 lg:p-20 shadow-sm border border-gray-100 text-center">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] md:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 shadow-sm border border-gray-100 text-center">
       <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-20 h-20 mx-auto mb-8">
-      <h2 class="text-4xl md:text-5xl lg:text-6xl tracking-tight text-gray-900 font-medium mb-6">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-gray-900 font-medium mb-6">
         Stop typing.
         <span class="italic text-gray-400">Start talking.</span>
       </h2>
@@ -912,7 +961,7 @@
 
   <!-- ==================== 11. FOOTER ==================== -->
   <footer class="bg-gray-100 mt-auto">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-5 h-5">
         <p class="text-sm text-gray-500 font-montserrat font-medium">&copy; 2026 ShhhType. All rights reserved.</p>
@@ -923,5 +972,19 @@
 
   <!-- Initialize Lucide Icons -->
   <script>lucide.createIcons();</script>
+
+  <!-- Mobile menu toggle -->
+  <script>
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', function() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  </script>
 </body>
 </html>
