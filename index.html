@@ -3,9 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShhhType - Voice to Text for macOS</title>
-  <meta name="description" content="Press a hotkey, speak, and your words are transcribed and injected into any app. Powered by Groq on macOS.">
+  <title>ShhhType - Voice to Text for macOS | Speak, Transcribe, Type Instantly</title>
+  <meta name="description" content="ShhhType turns your voice into text in any macOS app. Press a hotkey, speak naturally, and words appear instantly. Private and fast with local or cloud transcription.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://shhhtype.com/">
+  <meta name="theme-color" content="#f43f5e">
+  <meta name="apple-mobile-web-app-title" content="ShhhType">
+  <meta name="application-name" content="ShhhType">
+  <meta name="keywords" content="voice to text, speech to text, dictation, macOS, voice typing, transcription, whisper, AI dictation, voice to text mac, offline voice to text">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shhhtype.com/">
+  <meta property="og:title" content="ShhhType - Voice to Text for macOS">
+  <meta property="og:description" content="Press a hotkey, speak naturally, and your words appear in any app. Local Whisper or cloud transcription. Private, fast, effortless.">
+  <meta property="og:image" content="https://shhhtype.com/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ShhhType - Voice to text for macOS menu bar">
+  <meta property="og:site_name" content="ShhhType">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ShhhType - Voice to Text for macOS">
+  <meta name="twitter:description" content="Press a hotkey, speak naturally, and your words appear in any app. Local or cloud transcription.">
+  <meta name="twitter:image" content="https://shhhtype.com/assets/images/og-image.png">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/shhh_logo_thick.png">
+  <link rel="apple-touch-icon" href="assets/images/shhh_logo_thick.png">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Structured Data: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ShhhType",
+    "description": "macOS menu bar voice-to-text app. Press a hotkey, speak, and your words are transcribed and injected into any focused application.",
+    "url": "https://shhhtype.com",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "macOS",
+    "offers": {
+      "@type": "Offer",
+      "price": "29.00",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": "Voice to text, Global hotkey, Local Whisper transcription, Cloud Groq transcription, AI rewrite, 9 language support, Menu bar app, Works in any application",
+    "softwareVersion": "1.0",
+    "downloadUrl": "https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87",
+    "author": {
+      "@type": "Organization",
+      "name": "Genesis1 Tech",
+      "url": "https://g1tech.cloud"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does ShhhType work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Press a global hotkey (Cmd+Alt+V), speak naturally, and ShhhType transcribes your speech and injects the text directly into whatever app you're using. It works in any macOS application."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does ShhhType work offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. ShhhType supports local transcription using Whisper running directly on your Mac with Metal GPU acceleration. No internet connection required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Cloud and Local mode?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cloud mode uses Groq's API with Whisper Large V3 Turbo for fast, accurate transcription. Local mode runs Whisper on your Mac for complete privacy with no data leaving your device. You can switch anytime in Settings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does ShhhType cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ShhhType is available as a one-time purchase of $29 for Early Adopter access. No subscription required. A free Groq API key is needed for cloud transcription."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What languages does ShhhType support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ShhhType supports 9 languages: English, Spanish, French, German, Italian, Portuguese, Japanese, Korean, and Chinese, plus automatic language detection."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
