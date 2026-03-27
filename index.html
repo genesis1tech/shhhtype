@@ -47,15 +47,24 @@
     "url": "https://shhhtype.com",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "macOS",
-    "offers": {
-      "@type": "Offer",
-      "price": "29.00",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock"
-    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "19.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "description": "Monthly subscription"
+      },
+      {
+        "@type": "Offer",
+        "price": "200.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "description": "Annual subscription (save $28)"
+      }
+    ],
     "featureList": "Voice to text, Global hotkey, Local Whisper transcription, Cloud Groq transcription, AI rewrite, 9 language support, Menu bar app, Works in any application",
     "softwareVersion": "1.0",
-    "downloadUrl": "https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87",
     "author": {
       "@type": "Organization",
       "name": "Genesis1 Tech",
@@ -99,7 +108,7 @@
         "name": "How much does ShhhType cost?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ShhhType is available as a one-time purchase of $29 for Early Adopter access. No subscription required. A free Groq API key is needed for cloud transcription."
+          "text": "ShhhType offers a 7-day free trial with no credit card required. After the trial, plans start at $19/month or $200/year (save $28). A free Groq API key is needed for cloud transcription."
         }
       },
       {
@@ -212,10 +221,11 @@
         <a href="#pricing" class="hover:text-rose-600 transition-colors">Pricing</a>
       </div>
       <div class="h-4 w-px bg-gray-200 hidden md:block"></div>
-      <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="hidden sm:flex group bg-gray-900 text-white text-sm px-5 py-2.5 rounded-full hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/30 transition-all duration-300 items-center gap-2 font-montserrat font-medium">
-        Buy Now
+      <a href="#" onclick="openSignupModal(); return false;" class="hidden md:inline text-sm font-montserrat font-medium text-gray-500 hover:text-rose-600 transition-colors">Sign In</a>
+      <button onclick="openSignupModal()" class="hidden sm:flex group bg-gray-900 text-white text-sm px-5 py-2.5 rounded-full hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/30 transition-all duration-300 items-center gap-2 font-montserrat font-medium">
+        Start Free Trial
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-      </a>
+      </button>
       <!-- Mobile hamburger button -->
       <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors" aria-label="Open menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
@@ -242,10 +252,10 @@
         <a href="#pricing" onclick="closeMobileMenu()" class="text-lg font-montserrat font-medium text-gray-700 hover:text-rose-600 px-4 py-3 rounded-xl hover:bg-rose-50 transition-all">Pricing</a>
       </div>
       <div class="mt-6 pt-6 border-t border-gray-100">
-        <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="w-full bg-gray-900 text-white py-3.5 rounded-full text-base font-montserrat font-medium flex items-center justify-center gap-2 hover:bg-rose-600 transition-colors">
-          Buy Now — $29
+        <button onclick="openSignupModal(); closeMobileMenu();" class="w-full bg-gray-900 text-white py-3.5 rounded-full text-base font-montserrat font-medium flex items-center justify-center gap-2 hover:bg-rose-600 transition-colors">
+          Start Free Trial
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
+        </button>
       </div>
     </div>
   </div>
@@ -289,12 +299,12 @@
 
           <!-- Buttons -->
           <div class="animate-fade-up delay-500 flex flex-wrap gap-3 sm:gap-4 items-center">
-            <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-gray-900 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-sm sm:text-base hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/20 transition-all duration-300 flex items-center gap-2 sm:gap-3 font-montserrat font-medium group/btn min-h-[44px]">
-              Buy Now — $29
+            <button onclick="openSignupModal()" class="bg-gray-900 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-sm sm:text-base hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/20 transition-all duration-300 flex items-center gap-2 sm:gap-3 font-montserrat font-medium group/btn min-h-[44px]">
+              Start 7-Day Free Trial
               <div class="bg-white/20 rounded-full p-1 group-hover/btn:bg-white/30 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </div>
-            </a>
+            </button>
             <a href="#features" class="text-gray-600 px-4 sm:px-6 py-3.5 sm:py-4 rounded-full text-sm sm:text-base hover:text-gray-900 transition-all duration-300 font-montserrat font-medium flex items-center gap-2 group/link min-h-[44px]">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400 group-hover/link:text-gray-900 transition-colors"><path d="m6 9 6 6 6-6"></path></svg>
               See Features
@@ -520,14 +530,14 @@
         </div>
       </div>
 
-      <!-- Single Buy Now CTA -->
+      <!-- Single CTA -->
       <div class="text-center mt-10 sm:mt-12">
-        <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-sm sm:text-base hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/20 transition-all duration-300 font-montserrat font-medium group/btn min-h-[44px]">
-          Buy Now — $29
+        <button onclick="openSignupModal()" class="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-sm sm:text-base hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-600/20 transition-all duration-300 font-montserrat font-medium group/btn min-h-[44px]">
+          Start Free Trial
           <div class="bg-white/20 rounded-full p-1 group-hover/btn:bg-white/30 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </div>
-        </a>
+        </button>
       </div>
     </div>
 
@@ -674,7 +684,7 @@
             </div>
 
             <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3.5 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">Buy Now — $29</a>
+              <button onclick="openSignupModal()" class="bg-white text-gray-900 px-6 py-3.5 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">Start Free Trial</button>
               <a href="#pricing" class="border border-gray-700 text-white px-6 py-3.5 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">See Pricing</a>
             </div>
           </div>
@@ -730,7 +740,7 @@
               <span class="text-gray-400 italic">Transcription &amp; AI Rewrite.</span>
             </h2>
             <p class="text-base sm:text-lg text-gray-400 mb-8 sm:mb-10 leading-relaxed font-montserrat">
-              The Early Adopter deal won't last forever. Lock in unlimited access before we switch to monthly pricing.
+              Start with a 7-day free trial. Then choose monthly or annual for unlimited access to all features.
             </p>
 
             <div class="space-y-6">
@@ -766,14 +776,14 @@
                   <i data-lucide="refresh-cw" class="w-5 h-5 text-rose-400"></i>
                 </div>
                 <div>
-                  <h4 class="text-white text-lg font-semibold font-montserrat">Lifetime v1.x Updates</h4>
-                  <p class="text-gray-500 text-sm mt-1 font-montserrat">Early adopters get all updates through v1.</p>
+                  <h4 class="text-white text-lg font-semibold font-montserrat">Continuous Updates</h4>
+                  <p class="text-gray-500 text-sm mt-1 font-montserrat">All updates included with your subscription.</p>
                 </div>
               </div>
             </div>
 
             <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="bg-white text-gray-900 px-6 py-3.5 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">Buy Now — $29</a>
+              <button onclick="openSignupModal()" class="bg-white text-gray-900 px-6 py-3.5 rounded-full font-semibold hover:bg-rose-50 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">Start Free Trial</button>
               <a href="#pricing" class="border border-gray-700 text-white px-6 py-3.5 rounded-full font-semibold hover:bg-gray-800 transition-colors font-montserrat text-center min-h-[44px] flex items-center justify-center">Learn More</a>
             </div>
           </div>
@@ -787,8 +797,8 @@
             </div>
             <p class="text-gray-500 mb-4">// ShhhType License</p>
             <div class="space-y-1 overflow-hidden">
-              <p class="break-all"><span class="text-purple-400">plan</span>: <span class="text-green-400">"Early Adopter"</span></p>
-              <p class="break-all"><span class="text-purple-400">price</span>: <span class="text-green-400">"$29 one-time"</span></p>
+              <p class="break-all"><span class="text-purple-400">plan</span>: <span class="text-green-400">"Subscription"</span></p>
+              <p class="break-all"><span class="text-purple-400">price</span>: <span class="text-green-400">"$19/mo or $200/yr"</span></p>
               <p class="break-all"><span class="text-purple-400">cloud_transcription</span>: <span class="text-orange-300">groq_free_tier</span></p>
               <p class="break-all"><span class="text-purple-400">groq_api_key</span>: <span class="text-green-400">"bring your own (free)"</span></p>
               <p class="break-all"><span class="text-purple-400">ai_rewrite</span>: <span class="text-orange-300">enabled</span></p>
@@ -872,74 +882,118 @@
     <!-- ==================== 9. PRICING ==================== -->
     <div id="pricing" class="py-16 sm:py-24">
       <h2 class="text-3xl sm:text-4xl md:text-5xl text-center mb-4 tracking-tight text-gray-900 font-montserrat font-semibold">Simple Pricing</h2>
-      <p class="text-base sm:text-lg text-gray-500 font-montserrat font-medium text-center mb-10 sm:mb-16">One price. Everything included. No subscriptions — yet.</p>
+      <p class="text-base sm:text-lg text-gray-500 font-montserrat font-medium text-center mb-4 sm:mb-6">Start with a 7-day free trial. No credit card required.</p>
 
-      <div class="max-w-lg mx-auto">
-        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 p-6 sm:p-10 md:p-12 text-center">
-          <!-- Badge -->
-          <span class="inline-flex items-center gap-2 bg-rose-50 text-rose-600 px-4 py-1.5 rounded-full text-xs font-montserrat font-bold uppercase tracking-wider border border-rose-100 mb-8">LAUNCH SPECIAL</span>
+      <!-- Trial callout -->
+      <div class="max-w-md mx-auto mb-10 sm:mb-14">
+        <div class="bg-green-50 border border-green-200 rounded-2xl px-6 py-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="gift" class="w-5 h-5 text-green-600"></i>
+          </div>
+          <div>
+            <p class="text-sm font-montserrat font-semibold text-green-800">7-Day Free Trial</p>
+            <p class="text-xs font-montserrat text-green-600">Full access to all features. No credit card needed.</p>
+          </div>
+        </div>
+      </div>
 
-          <!-- Price -->
+      <div class="max-w-3xl mx-auto grid md:grid-cols-2 gap-6">
+        <!-- Monthly Plan -->
+        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border border-gray-200 shadow-xl shadow-gray-200/40 p-6 sm:p-10 text-center">
+          <span class="inline-flex items-center gap-2 bg-gray-100 text-gray-600 px-4 py-1.5 rounded-full text-xs font-montserrat font-bold uppercase tracking-wider border border-gray-200 mb-8">MONTHLY</span>
           <div class="mb-4">
-            <span class="text-5xl sm:text-6xl md:text-7xl font-montserrat font-bold text-gray-900">$29</span>
-            <span class="text-base sm:text-lg text-gray-500 font-montserrat font-medium ml-2">one-time</span>
+            <span class="text-5xl sm:text-6xl font-montserrat font-bold text-gray-900">$19</span>
+            <span class="text-base sm:text-lg text-gray-500 font-montserrat font-medium ml-1">/month</span>
           </div>
-          <p class="text-sm text-gray-500 font-montserrat font-medium mb-6 sm:mb-10">Lock in lifetime v1.x access before we switch to $9.99/mo</p>
+          <p class="text-sm text-gray-500 font-montserrat font-medium mb-6 sm:mb-8">Flexible monthly billing. Cancel anytime.</p>
 
-          <!-- Checklist -->
-          <div class="text-left space-y-3 sm:space-y-4 mb-8 sm:mb-10">
+          <div class="text-left space-y-3 mb-8">
             <div class="flex items-center gap-3">
               <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
               </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">Cloud transcription via Groq (free API key required)</span>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">Cloud transcription via Groq</span>
             </div>
             <div class="flex items-center gap-3">
               <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
               </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">AI Rewrite — 4 styles</span>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">AI Rewrite — 4 styles</span>
             </div>
             <div class="flex items-center gap-3">
               <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
               </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">9 languages + auto-detect</span>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">9 languages + auto-detect</span>
             </div>
             <div class="flex items-center gap-3">
               <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
               </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">Local Whisper mode</span>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">Local Whisper mode</span>
             </div>
             <div class="flex items-center gap-3">
               <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
               </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">Custom dictionary</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
-              </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">Searchable history with export</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
-              </div>
-              <span class="text-sm sm:text-base text-gray-700 font-montserrat font-medium">All v1.x updates</span>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">All updates included</span>
             </div>
           </div>
 
-          <!-- CTA -->
-          <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white h-14 rounded-xl flex items-center justify-center gap-2.5 font-montserrat font-bold text-lg hover:shadow-lg hover:shadow-rose-500/30 transition-all active:scale-[0.98]">
-            Buy Now
-          </a>
+          <button onclick="openSignupModal()" class="w-full bg-gray-900 text-white h-14 rounded-xl flex items-center justify-center gap-2.5 font-montserrat font-bold text-lg hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 transition-all active:scale-[0.98]">
+            Start Free Trial
+          </button>
         </div>
 
-        <p class="text-center text-sm text-gray-400 font-montserrat font-medium mt-6">Pro subscription ($9.99/mo) coming soon with priority support and all future updates.</p>
+        <!-- Annual Plan -->
+        <div class="bg-white rounded-2xl sm:rounded-[2.5rem] border-2 border-rose-200 shadow-xl shadow-rose-100/40 p-6 sm:p-10 text-center relative">
+          <span class="inline-flex items-center gap-2 bg-rose-50 text-rose-600 px-4 py-1.5 rounded-full text-xs font-montserrat font-bold uppercase tracking-wider border border-rose-100 mb-8">BEST VALUE</span>
+          <div class="mb-4">
+            <span class="text-5xl sm:text-6xl font-montserrat font-bold text-gray-900">$200</span>
+            <span class="text-base sm:text-lg text-gray-500 font-montserrat font-medium ml-1">/year</span>
+          </div>
+          <p class="text-sm text-rose-600 font-montserrat font-semibold mb-6 sm:mb-8">Save $28/year compared to monthly</p>
+
+          <div class="text-left space-y-3 mb-8">
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+              </div>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">Everything in Monthly</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+              </div>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">2 months free</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+              </div>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">Priority support</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+              </div>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">Local Whisper mode</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+              </div>
+              <span class="text-sm text-gray-700 font-montserrat font-medium">All updates included</span>
+            </div>
+          </div>
+
+          <button onclick="openSignupModal()" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white h-14 rounded-xl flex items-center justify-center gap-2.5 font-montserrat font-bold text-lg hover:shadow-lg hover:shadow-rose-500/30 transition-all active:scale-[0.98]">
+            Start Free Trial
+          </button>
+        </div>
       </div>
+
+      <p class="text-center text-sm text-gray-400 font-montserrat font-medium mt-8">All plans include a 7-day free trial. No credit card required to start.</p>
     </div>
 
     <!-- ==================== 10. FINAL CTA ==================== -->
@@ -952,13 +1006,13 @@
       <p class="text-base sm:text-lg md:text-xl text-gray-500 font-montserrat font-medium max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed">
         ShhhType lives in your menu bar, ready whenever you are. One hotkey. Any app. Instant text.
       </p>
-      <a href="https://shhhtype.lemonsqueezy.com/checkout/buy/1ea919ae-5f44-4ea9-bc4d-95e64cb41a87" class="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-rose-500 to-orange-500 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-base sm:text-lg hover:shadow-lg hover:shadow-rose-500/30 transition-all duration-300 font-montserrat font-semibold group/btn min-h-[44px]">
-        Buy Now — $29
+      <button onclick="openSignupModal()" class="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-rose-500 to-orange-500 text-white pl-6 sm:pl-8 pr-5 sm:pr-6 py-3.5 sm:py-4 rounded-full text-base sm:text-lg hover:shadow-lg hover:shadow-rose-500/30 transition-all duration-300 font-montserrat font-semibold group/btn min-h-[44px]">
+        Start Free Trial
         <div class="bg-white/20 rounded-full p-1.5 group-hover/btn:bg-white/30 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </div>
-      </a>
-      <p class="text-sm text-gray-400 font-montserrat font-medium mt-6">macOS &middot; Apple Silicon recommended</p>
+      </button>
+      <p class="text-sm text-gray-400 font-montserrat font-medium mt-6">7-day free trial &middot; macOS &middot; Apple Silicon recommended</p>
     </div>
   </main>
 
@@ -972,6 +1026,50 @@
       <a href="mailto:support@shhhtype.com" class="text-sm text-gray-500 font-montserrat font-medium hover:text-rose-600 transition-colors">support@shhhtype.com</a>
     </div>
   </footer>
+
+  <!-- ==================== SIGNUP MODAL ==================== -->
+  <div id="signup-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeSignupModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative animate-fade-up" onclick="event.stopPropagation()">
+        <button onclick="closeSignupModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+
+        <div class="text-center mb-8">
+          <img src="assets/images/shhh_logo_thick.png" alt="ShhhType" class="w-12 h-12 mx-auto mb-4">
+          <h3 class="text-2xl font-montserrat font-bold text-gray-900">Start Your Free Trial</h3>
+          <p class="text-sm text-gray-500 font-montserrat mt-2">7 days free. No credit card required.</p>
+        </div>
+
+        <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4">
+          <div>
+            <label for="signup-name" class="block text-sm font-montserrat font-medium text-gray-700 mb-1.5">Full Name</label>
+            <input type="text" id="signup-name" name="name" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm font-montserrat focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
+          </div>
+          <div>
+            <label for="signup-email" class="block text-sm font-montserrat font-medium text-gray-700 mb-1.5">Email</label>
+            <input type="email" id="signup-email" name="email" required placeholder="john@example.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm font-montserrat focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
+          </div>
+          <div>
+            <label for="signup-password" class="block text-sm font-montserrat font-medium text-gray-700 mb-1.5">Password</label>
+            <input type="password" id="signup-password" name="password" required minlength="8" placeholder="Minimum 8 characters" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm font-montserrat focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all">
+          </div>
+
+          <div id="signup-error" class="hidden text-sm text-red-600 font-montserrat bg-red-50 border border-red-200 rounded-xl px-4 py-3"></div>
+          <div id="signup-success" class="hidden text-sm text-green-700 font-montserrat bg-green-50 border border-green-200 rounded-xl px-4 py-3"></div>
+
+          <button type="submit" id="signup-btn" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white h-14 rounded-xl flex items-center justify-center gap-2.5 font-montserrat font-bold text-lg hover:shadow-lg hover:shadow-rose-500/30 transition-all active:scale-[0.98]">
+            Create Account & Start Trial
+          </button>
+        </form>
+
+        <p class="text-xs text-gray-400 font-montserrat text-center mt-6">
+          By signing up, you agree to our Terms of Service and Privacy Policy.
+        </p>
+      </div>
+    </div>
+  </div>
 
   <!-- Initialize Lucide Icons -->
   <script>lucide.createIcons();</script>
@@ -987,6 +1085,61 @@
     function closeMobileMenu() {
       mobileMenu.classList.remove('active');
       document.body.style.overflow = '';
+    }
+  </script>
+
+  <!-- Signup modal -->
+  <script>
+    // Signup modal
+    function openSignupModal() {
+      document.getElementById('signup-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSignupModal() {
+      document.getElementById('signup-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeSignupModal();
+    });
+
+    // Signup form handler
+    async function handleSignup(e) {
+      e.preventDefault();
+      const btn = document.getElementById('signup-btn');
+      const errorEl = document.getElementById('signup-error');
+      const successEl = document.getElementById('signup-success');
+
+      errorEl.classList.add('hidden');
+      successEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      try {
+        const res = await fetch('https://api.shhhtype.com/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || 'Signup failed');
+
+        successEl.innerHTML = '<strong>Account created!</strong> Check your email for your license key and download link.';
+        successEl.classList.remove('hidden');
+        document.getElementById('signup-form').reset();
+      } catch (err) {
+        errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+        errorEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Create Account & Start Trial';
+      }
     }
   </script>
 </body>
