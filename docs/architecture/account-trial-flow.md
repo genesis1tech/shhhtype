@@ -49,6 +49,17 @@
               | - Newsletter |
               +--------------+
 
+              +--------------+
+              |  Zoho Desk   |
+              |              |
+              | - Tickets    |
+              | - Community  |
+              |   Forum      |
+              | - Roadmap    |
+              | - Knowledge  |
+              |   Base       |
+              +--------------+
+
                     +----------------------------+
                     |   ShhhType macOS App       |
                     |   (Tauri / Rust)           |
@@ -636,3 +647,155 @@ POST /webhooks/lemonsqueezy
   → Upgrade license from TRIAL to SUBSCRIPTION
   → Update Zoho CRM contact via API
 ```
+
+---
+
+## 12. Zoho Desk: Helpdesk & Community Forum
+
+### Overview
+
+Zoho Desk serves two purposes:
+1. **Support ticketing** — customers submit and track support requests
+2. **Community forum** — users submit feature requests, vote on ideas, and view the roadmap
+
+### Help Center Setup
+
+**Portal URL:** `https://support.shhhtype.com` (or `https://desk.zoho.com/portal/shhhtype`)
+
+**Sections:**
+| Section | Purpose |
+|---------|---------|
+| Knowledge Base | Self-service docs, FAQs, setup guides |
+| Community Forum | Feature requests, bug reports, discussions |
+| Submit a Ticket | Direct support for account/billing/technical issues |
+
+### Community Forum: Categories
+
+| Category | Description | Who Can Post |
+|----------|-------------|-------------|
+| **Feature Requests** | Users suggest and vote on new features | All users (trial + paid) |
+| **Bug Reports** | Report issues with the app | All users |
+| **Tips & Tricks** | Community-shared workflows and tips | All users |
+| **Announcements** | Official updates from ShhhType team | Admin only |
+
+### Feature Request Workflow
+
+```
+User submits feature request in Community Forum
+  → Post appears in "Feature Requests" category
+  → Other users can upvote (👍) and comment
+  → Admin reviews and sets status tag:
+      "Under Review" → "Planned" → "In Progress" → "Shipped"
+  → When status changes → notification to all voters
+  → "Shipped" items link to release notes
+```
+
+### Feature Request Statuses (Custom Topic Tags)
+
+| Status | Color | Meaning |
+|--------|-------|---------|
+| `Under Review` | Gray | Team is evaluating the request |
+| `Planned` | Blue | Accepted and added to roadmap |
+| `In Progress` | Orange | Currently being developed |
+| `Shipped` | Green | Released — links to changelog |
+| `Won't Do` | Red | Declined with explanation |
+
+### Public Roadmap View
+
+Use a **pinned topic** in the Announcements category (or a dedicated "Roadmap" category) to display the current roadmap:
+
+```
+📋 ShhhType Roadmap
+
+🟢 SHIPPED
+  - Windows support (v1.2)
+  - Custom hotkey mapping
+
+🔶 IN PROGRESS
+  - Multi-language simultaneous detection
+  - Clipboard history integration
+
+🔵 PLANNED
+  - iOS companion app
+  - Team/enterprise licensing
+  - Browser extension
+
+⬜ UNDER REVIEW
+  - Linux support
+  - Custom AI models
+  - Slack integration
+```
+
+> **Tip:** Keep this pinned post updated manually, or automate it via Zoho Flow: when a topic's status tag changes, trigger a Deluge script to regenerate the roadmap post.
+
+### Zoho Desk Configuration
+
+**Departments:**
+| Department | Purpose |
+|-----------|---------|
+| Support | General help, account issues, billing |
+| Technical | App bugs, crashes, performance |
+| Feature Requests | Routed from community forum when needed |
+
+**Ticket Channels:**
+- Email: `support@shhhtype.com` → auto-creates ticket
+- Community Forum: user posts → optional escalation to ticket
+- In-App: "Help" button → opens Zoho Desk widget or portal
+
+**SLA Policies:**
+| Priority | First Response | Resolution |
+|----------|---------------|------------|
+| Urgent (app crash) | 2 hours | 24 hours |
+| High (feature broken) | 4 hours | 48 hours |
+| Medium (question) | 8 hours | 72 hours |
+| Low (feature request) | 24 hours | — |
+
+**Auto-Assignment Rules:**
+- Billing-related keywords → assign to billing team
+- Crash/error keywords → assign to technical team
+- Feature request from forum → tag only, no assignment (community-driven)
+
+### CRM Integration (Zoho Desk ↔ Zoho CRM)
+
+```
+When a ticket is created:
+  → Look up contact in Zoho CRM by email
+  → Show CRM data in Desk ticket sidebar:
+      - Plan type (Trial / Monthly / Annual)
+      - Account status
+      - License key
+      - Subscription ID
+  → Priority boost for paying customers
+
+When a ticket is resolved:
+  → Log activity on CRM contact
+  → Update "Last Support Interaction" field
+```
+
+### Community Forum ↔ Zoho Campaigns Integration
+
+- When a feature ships, send announcement email to the **Customers** mailing list
+- Monthly digest of top-voted feature requests sent to **Newsletter** list
+- Feature shipped notifications to users who voted on that feature (via Zoho Desk notifications)
+
+### In-App Integration
+
+The macOS app should include:
+- **Help menu → "Submit Feedback"** → opens community forum in browser
+- **Help menu → "Request a Feature"** → deep link to Feature Requests category
+- **Help menu → "Contact Support"** → opens Zoho Desk ticket form or portal
+- **About window → "What's New"** → links to Announcements category
+
+### Zoho Desk Setup Checklist
+
+1. **Create Help Center portal** with ShhhType branding
+2. **Set up Community Forum** with 4 categories (Feature Requests, Bug Reports, Tips & Tricks, Announcements)
+3. **Enable topic voting** (upvotes) in Feature Requests category
+4. **Create custom topic tags** for feature statuses (Under Review, Planned, In Progress, Shipped, Won't Do)
+5. **Create pinned Roadmap post** in Announcements
+6. **Configure departments** (Support, Technical, Feature Requests)
+7. **Set up email channel:** `support@shhhtype.com`
+8. **Enable CRM integration** so ticket sidebar shows customer data
+9. **Configure SLA policies** per priority level
+10. **Set auto-assignment rules** based on keywords
+11. **Add ASAP widget** (Zoho Desk embeddable widget) to landing page footer for quick support access
