@@ -35,14 +35,19 @@
               | - Contacts   |  | - $19/mo plan |
               | - Pipeline   |  | - $200/yr plan|
               | - Status     |  | - Invoices    |
-              +--------------+  +-------+-------+
-                                        |
-                              (fallback) |
-                                        v
-                                +-------+--------+
-                                | LemonSqueezy   |
-                                | (alt payments) |
-                                +----------------+
+              +------+-------+  +-------+-------+
+                     |                  |
+                     |        (fallback) |
+                     v                  v
+              +------+-------+  +-------+--------+
+              |Zoho Campaigns|  | LemonSqueezy   |
+              |              |  | (alt payments) |
+              | - Welcome    |  +----------------+
+              | - Trial drip |
+              | - Onboarding |
+              | - Win-back   |
+              | - Newsletter |
+              +--------------+
 
                     +----------------------------+
                     |   ShhhType macOS App       |
@@ -162,14 +167,17 @@ curl -X POST https://api.shhhtype.com/v1/accounts/{ACCOUNT_ID}/licenses \
 
 ### Timeline
 
-| Day | Action |
-|-----|--------|
-| 0 | Account created, trial license issued, welcome email sent |
-| 1-4 | Full feature access, app validates license on startup |
-| 5 | Reminder email: "Your trial expires in 2 days" |
-| 7 | License expires, app shows upgrade prompt |
-| 7+ | Zoho CRM contact updated to "Trial Expired" |
-| 10 | Follow-up email: "We miss you — 20% off first month?" (optional) |
+| Day | Action | Email (Zoho Campaigns) |
+|-----|--------|------------------------|
+| 0 | Account created, trial license issued | Welcome + license key + download link |
+| 1 | — | Onboarding: "Set up your first hotkey" |
+| 3 | — | Tips: "Try AI rewrite & cloud vs local" |
+| 5 | CRM status → "Trial Expiring" | Urgency: "Your trial expires in 2 days" |
+| 6 | — | Feature highlight: "What you'll miss" |
+| 7 | License expires, app shows upgrade prompt | Trial expired + subscribe CTA |
+| 10 | — | Win-back: "We miss you — 20% off first month" |
+| 14 | — | Last chance: "Final reminder before we close your trial" |
+| 30+ | CRM status → "Churned" (if no purchase) | — |
 
 ### App Behavior During Trial
 - Full access to all features (cloud transcription, AI rewrite, all languages)
@@ -410,23 +418,26 @@ Add these fields to the **Contacts** module:
 **Flow 1: New Trial Signup**
 - Trigger: Keygen webhook `license.created` (policy = Trial)
 - Action: Create Zoho CRM Contact with license key, status = "Trial"
-- Action: Send welcome email via Zoho
+- Action: Add contact to Zoho Campaigns "Trial Drip" mailing list
+- Action: Trigger Campaigns welcome sequence (Day 0 email)
 
-**Flow 2: Trial Expiring Reminder**
+**Flow 2: Trial Expiring**
 - Trigger: Scheduled (daily check)
 - Condition: Trial end date = today + 2 days
-- Action: Send reminder email
 - Action: Update CRM contact status = "Trial Expiring"
+- (Campaigns handles Day 5/6 emails automatically via drip sequence)
 
 **Flow 3: Trial Expired**
 - Trigger: Keygen webhook `license.expired`
 - Action: Update CRM contact status = "Trial Expired"
-- Action: Send trial expired email with subscribe CTA
+- Action: Move contact from "Trial Drip" to "Win-Back" list in Campaigns
 
 **Flow 4: Subscription Created**
 - Trigger: Zoho Billing webhook `subscription_created`
 - Action: Call Keygen API to upgrade license
 - Action: Update CRM contact status = "Customer"
+- Action: Remove contact from trial/win-back lists in Campaigns
+- Action: Add contact to "Customers" list in Campaigns
 
 **Flow 5: Subscription Renewed**
 - Trigger: Zoho Billing webhook `subscription_renewed`
@@ -436,14 +447,112 @@ Add these fields to the **Contacts** module:
 - Trigger: Zoho Billing webhook `subscription_cancelled`
 - Action: Call Keygen API to suspend license at period end
 - Action: Update CRM contact status = "Churned"
+- Action: Move contact to "Win-Back" list in Campaigns
 
 **Flow 7: Payment Failed**
 - Trigger: Zoho Billing webhook `payment_failed`
 - Action: Update CRM contact with payment failure flag
+- Action: Trigger "Payment Failed" workflow in Campaigns
 
 ---
 
-## 7. Keygen Setup Guide
+## 7. Zoho Campaigns: Email Sequences
+
+### Mailing Lists
+
+| List Name | Purpose | Entry Trigger |
+|-----------|---------|---------------|
+| `Trial Drip` | Onboarding + trial conversion | Account created (Zoho Flow 1) |
+| `Win-Back` | Re-engage expired trials & churned | Trial expired or subscription cancelled |
+| `Customers` | Active subscribers | Subscription created |
+| `Newsletter` | Product updates, tips, releases | Opt-in (all users) |
+
+### Sequence 1: Trial Drip (7 emails over 14 days)
+
+Triggered when contact is added to "Trial Drip" list.
+
+| # | Day | Subject Line | Content |
+|---|-----|-------------|---------|
+| 1 | 0 | Welcome to ShhhType! Here's your license key | License key, download link, quick-start guide, setup video link |
+| 2 | 1 | Set up your first hotkey in 30 seconds | Step-by-step hotkey setup, screenshot walkthrough, link to docs |
+| 3 | 3 | You're missing the best part: AI Rewrite | Demo of AI rewrite feature, cloud vs local mode comparison, tips |
+| 4 | 5 | Your trial expires in 2 days | Feature recap, usage stats if available, subscribe CTA with pricing |
+| 5 | 6 | Here's what you'll lose tomorrow | Side-by-side: with vs without ShhhType, urgency CTA |
+| 6 | 7 | Your trial has ended | "We hope you loved it", subscribe CTA, pricing ($19/mo or $200/yr) |
+| 7 | 10 | We miss you — here's 20% off your first month | Discount code `COMEBACK20`, limited time (72 hours), subscribe CTA |
+
+**Exit Condition:** Contact subscribes (moved to Customers list) → immediately stop drip sequence.
+
+### Sequence 2: Win-Back (3 emails over 21 days)
+
+Triggered when contact is added to "Win-Back" list (trial expired without purchase, or subscription cancelled).
+
+| # | Day | Subject Line | Content |
+|---|-----|-------------|---------|
+| 1 | 0 | We saved your spot | Remind what they're missing, 20% discount code, subscribe CTA |
+| 2 | 7 | Still typing everything by hand? | Pain point reminder, testimonials/use cases, subscribe CTA |
+| 3 | 14 | Last chance: your discount expires tomorrow | Final 20% off reminder, urgency, direct subscribe link |
+
+**Exit Condition:** Contact subscribes → stop sequence, move to Customers list.
+
+### Sequence 3: Customer Onboarding (3 emails over 7 days)
+
+Triggered when contact is added to "Customers" list.
+
+| # | Day | Subject Line | Content |
+|---|-----|-------------|---------|
+| 1 | 0 | You're all set! Your ShhhType subscription is active | Confirmation, receipt link, quick tips, support contact |
+| 2 | 3 | 3 power-user tips you probably missed | Advanced features: custom hotkeys, language switching, AI rewrite prompts |
+| 3 | 7 | How's it going? We'd love your feedback | NPS survey or short feedback form, link to leave a review |
+
+### Sequence 4: Payment Failed (3 emails over 10 days)
+
+Triggered by Zoho Flow 7 when payment fails.
+
+| # | Day | Subject Line | Content |
+|---|-----|-------------|---------|
+| 1 | 0 | Heads up: your payment didn't go through | Update payment method link (Zoho Billing portal), support contact |
+| 2 | 3 | Your ShhhType access is at risk | Reminder to update payment, what happens if not resolved |
+| 3 | 7 | Last chance to keep your subscription | Final warning, access will be suspended in 3 days |
+
+**Exit Condition:** Payment succeeds → stop sequence.
+
+### Sequence 5: Cancellation / Churn Prevention (2 emails)
+
+Triggered when subscription is marked as "cancelling" (before period end).
+
+| # | Day | Subject Line | Content |
+|---|-----|-------------|---------|
+| 1 | 0 | We're sorry to see you go | Confirm cancellation, access until period end, feedback survey |
+| 2 | 7 (after expiry) | Come back anytime — 25% off for 3 months | Win-back offer, resubscribe CTA, discount code `WELCOME25` |
+
+### Campaigns Setup Checklist
+
+1. **Create mailing lists:** Trial Drip, Win-Back, Customers, Newsletter
+2. **Design email templates** using ShhhType branding (rose/orange gradient, Montserrat font)
+3. **Create autoresponder workflows** for each sequence above
+4. **Set exit conditions** so contacts don't receive irrelevant emails after converting
+5. **Configure CRM sync** so Campaigns lists stay in sync with CRM contact status
+6. **Set up merge tags** for personalization:
+   - `${CONTACT.First Name}` — personalized greeting
+   - `${CUSTOM.License Key}` — include in welcome email
+   - `${CUSTOM.Trial End Date}` — show expiry in urgency emails
+   - `${CUSTOM.Plan Type}` — tailor content to plan
+7. **Enable double opt-in** for Newsletter list (CAN-SPAM/GDPR compliance)
+8. **Add unsubscribe footer** to all sequences (auto-handled by Campaigns)
+
+### Discount Codes (Referenced in Emails)
+
+| Code | Discount | Valid For | Used In |
+|------|----------|-----------|---------|
+| `COMEBACK20` | 20% off first month | 72 hours | Trial Drip #7, Win-Back #1 & #3 |
+| `WELCOME25` | 25% off for 3 months | 14 days | Churn Prevention #2 |
+
+> **Note:** Discount codes are created in Zoho Billing as coupon codes and referenced in Campaigns emails. The subscribe CTA links should include `?coupon={CODE}` parameter.
+
+---
+
+## 8. Keygen Setup Guide
 
 ### Environment Variables (Coolify)
 ```env
@@ -455,6 +564,10 @@ ZOHO_CRM_CLIENT_ID=your-zoho-client-id
 ZOHO_CRM_CLIENT_SECRET=your-zoho-client-secret
 ZOHO_CRM_REFRESH_TOKEN=your-zoho-refresh-token
 ZOHO_BILLING_WEBHOOK_SECRET=your-webhook-secret
+ZOHO_CAMPAIGNS_AUTH_TOKEN=your-campaigns-auth-token
+ZOHO_CAMPAIGNS_TRIAL_LIST_KEY=your-trial-list-key
+ZOHO_CAMPAIGNS_WINBACK_LIST_KEY=your-winback-list-key
+ZOHO_CAMPAIGNS_CUSTOMERS_LIST_KEY=your-customers-list-key
 LEMONSQUEEZY_WEBHOOK_SECRET=your-ls-webhook-secret
 ```
 
@@ -467,7 +580,7 @@ Set up webhooks in Keygen admin for these events:
 
 ---
 
-## 8. API Endpoints Summary (Coolify Server)
+## 9. API Endpoints Summary (Coolify Server)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -480,7 +593,7 @@ Set up webhooks in Keygen admin for these events:
 
 ---
 
-## 9. Landing Page Integration
+## 10. Landing Page Integration
 
 ### Signup Modal
 - Collects: Full Name, Email, Password
@@ -501,7 +614,7 @@ Set up webhooks in Keygen admin for these events:
 
 ---
 
-## 10. Hybrid LemonSqueezy Approach
+## 11. Hybrid LemonSqueezy Approach
 
 Keep LemonSqueezy as a fallback payment processor for:
 - Users in regions where Zoho Billing has limited payment method support
